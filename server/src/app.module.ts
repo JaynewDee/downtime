@@ -1,10 +1,12 @@
 import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
+import { ScheduleModule } from "@nestjs/schedule";
 import { RequestLogger } from "./common/middleware/logger.middleware";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [],
+  imports: [ScheduleModule.forRoot(), AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

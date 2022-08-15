@@ -1,5 +1,5 @@
 <script lang="ts">
-import { RouterLink, RouterView } from "vue-router";
+import { defineComponent } from "vue";
 import Nav from "./components/Nav.vue";
 
 export default {
@@ -10,18 +10,27 @@ export default {
 </script>
 
 <template>
-  <header>
-    <div class="nav-wrapper">
-      <Nav />
-    </div>
+  <header class="header">
+    <Nav />
   </header>
-  <body>
+  <main>
     <router-view />
-  </body>
+  </main>
 </template>
 
-<style scoped>
-.nav-wrapper {
-  height: 100px;
+<style>
+main {
+  margin: 3rem 0;
+  padding: 0 10%;
+  font-size: 24px;
+}
+h2 {
+  font-style: italic;
+}
+.header {
+  padding: 3rem auto;
+}
+form {
+  margin-left: 3rem;
 }
 </style>

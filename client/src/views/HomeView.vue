@@ -1,28 +1,7 @@
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  data() {
-    return {
-      domainField: "",
-    };
-  },
-  methods: {
-    submitDomain() {
-      console.log("Domain submit successful");
-    },
-  },
-});
-</script>
+<script lang="ts"></script>
 
 <template>
-  <main>
-    <h1>HOME</h1>
-  </main>
+  <h2>HOME</h2>
 </template>
 
-<style>
-.domainInput {
-  margin-top: 11rem;
-}
-</style>
+<style></style>
