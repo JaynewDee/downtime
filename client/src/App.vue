@@ -11,7 +11,7 @@ export default {
 
 <template>
   <header>
-    <div class="wrapper">
+    <div class="nav-wrapper">
       <Nav />
     </div>
   </header>
@@ -21,7 +21,7 @@ export default {
 </template>
 
 <style scoped>
-.wrapper {
+.nav-wrapper {
   height: 100px;
 }
 </style>

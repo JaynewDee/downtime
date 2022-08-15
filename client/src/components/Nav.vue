@@ -45,19 +45,18 @@ ul {
 
 .route-link {
   text-decoration: none;
-  color: white;
   filter: drop-shadow(0rem 0rem 1rem black);
   transition: all 0.33s;
+  color: rgba(0,0,0,.8)
 }
 .route-link:hover {
   font-size: 16px;
 }
 .logo-home {
   background: none;
-  color: white;
-  border: white;
-  font-size: 24px;
-  filter: drop-shadow(0rem 0rem 0.66rem rgb(69, 178, 255));
+  border-radius: 50%;
+  transform: scale(1.1);
+  filter: drop-shadow(0rem 0rem 0.66rem rgb(12, 45, 68));
 }
 
 @media screen and (max-width: 800px) {
@@ -67,4 +66,5 @@ ul {
     text-align: right;
   }
 }
+
 </style>
