@@ -28,7 +28,7 @@ h2 {
   font-style: italic;
 }
 .header {
-  padding: 3rem auto;
+  margin-bottom: 3rem;
 }
 form {
   margin-left: 3rem;
