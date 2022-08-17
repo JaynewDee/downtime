@@ -1,3 +1,4 @@
+import {} from 'dotenv/config';
 import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
 import { ScheduleModule } from "@nestjs/schedule";
 import { MongooseModule } from "@nestjs/mongoose";
@@ -11,7 +12,7 @@ import { AuthModule } from "./auth/auth.module";
     ScheduleModule.forRoot(),
     ConfigModule.forRoot(),
     AuthModule,
-    // MongooseModule.forRoot(process.env.MONGODB_URI),
+    MongooseModule.forRoot(process.env.MONGODB_URI),
   ],
   controllers: [AppController],
   providers: [AppService],
