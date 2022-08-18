@@ -1,5 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import axios from "axios";
+import { server } from "@/utils/urls";
 
 export default defineComponent({
   data() {
@@ -15,7 +17,7 @@ export default defineComponent({
       console.warn("Login");
     },
     submitSignup() {
-      console.warn("SignUp");
+      axios.get(server.baseURL + `/auth/${this.username}`).then((data) => data);
     },
   },
 });
@@ -36,7 +38,6 @@ export default defineComponent({
       <button type="submit" class="submitBtn" @click.prevent="submitSignup">
         =>
       </button>
-      <div>{{ firstName }}</div>
     </form>
     <form v-else>
       <label>Username</label>
@@ -47,7 +48,6 @@ export default defineComponent({
         =>
       </button>
     </form>
-    <div>{{ (username, password) }}</div>
   </section>
 </template>
 

@@ -1,21 +1,27 @@
-import { Model } from "mongoose";
 import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { InjectConnection } from "@nestjs/mongoose";
-import { Connection } from "mongoose";
-import { User, UserDocument } from "./schemas/user.schema";
-import { CreateAuthDto } from "./dto/create-auth.dto";
+import { JwtService } from "@nestjs/jwt";
+import { UsersService } from "src/users/users.service";
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService
+  ) {}
 
-  async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+  async validateUser(username: string, password: string): Promise<any> {
+    const user = await this.usersService.findOne(username);
+    if (user && user.password === password) {
+      const { password, ...result } = user;
+      return result;
+    }
+    return null;
   }
 
-  async create(createAuthDto: CreateAuthDto): Promise<User> {
-    const createdUser = new this.userModel(createAuthDto);
-    return createdUser.save();
+  async login(user: any) {
+    const payload = { username: user.username, sub: user.userId };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }
