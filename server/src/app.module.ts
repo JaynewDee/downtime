@@ -1,4 +1,4 @@
-import {} from 'dotenv/config';
+import {} from "dotenv/config";
 import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
 import { ScheduleModule } from "@nestjs/schedule";
 import { MongooseModule } from "@nestjs/mongoose";
@@ -7,6 +7,9 @@ import { RequestLogger } from "./common/middleware/logger.middleware";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
+import { AuthController } from "./auth/auth.controller";
+import { AuthService } from "./auth/auth.service";
+
 @Module({
   imports: [
     ScheduleModule.forRoot(),

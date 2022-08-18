@@ -13,16 +13,18 @@ export default {
 
 <template>
   <h3 class="logo-header">
-    <div><button @click="returnHome" class="logo-home">O</button></div>
+    <div>
+      <button @click="returnHome" class="logo-home">^</button>
+    </div>
   </h3>
 
   <nav>
     <ul>
       <router-link class="route-link" to="/auth">Authenticate</router-link>
-      <router-link class="route-link" to="/user/:username/monitor"
+      <router-link class="route-link" to="/auth/:username/monitor"
         >Monitor</router-link
       >
-      <router-link class="route-link" to="/user/:username/report"
+      <router-link class="route-link" to="/auth/:username/report"
         >Report</router-link
       >
     </ul>
@@ -58,8 +60,14 @@ ul {
 .logo-home {
   background: none;
   margin: 3rem;
-  border-radius: 50%;
-  filter: drop-shadow(0rem 0rem 0.66rem rgb(12, 45, 68));
+  filter: drop-shadow(0rem 0rem 0.66rem rgb(12, 68, 20));
+  border-left: 3px solid rgb(12, 68, 20);
+  border-right: 2px solid rgb(12, 68, 20);
+  border-right: none;
+  border-bottom: none;
+}
+.logo-home:hover {
+  transform: translate(-2px, -2px) scale(1.1);
 }
 
 @media screen and (max-width: 800px) {
