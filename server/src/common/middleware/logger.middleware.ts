@@ -3,8 +3,17 @@ import { Request, Response, NextFunction } from "express";
 
 @Injectable()
 export class RequestLogger implements NestMiddleware {
-  use({ url, method }: Request, res: Response, next: NextFunction) {
-    console.log("*Request*\n", "Method: ", method, "  URL: ", url);
+  use({ url, method, body }: Request, res: Response, next: NextFunction) {
+    console.log(
+      "*Request*\n",
+      "Method: ",
+      method,
+      "  URL: ",
+      url,
+      "  BODY: ",
+      body
+    );
+    console.log(`*Response Body*\n`, res);
     next();
   }
 }

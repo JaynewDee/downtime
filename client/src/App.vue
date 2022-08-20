@@ -30,7 +30,4 @@ h2 {
 .header {
   margin-bottom: 3rem;
 }
-form {
-  margin-left: 3rem;
-}
 </style>

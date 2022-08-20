@@ -20,7 +20,9 @@ export default {
 
   <nav>
     <ul>
-      <router-link class="route-link" to="/auth">Authenticate</router-link>
+      <router-link class="route-link" to="/auth/login"
+        >Authenticate</router-link
+      >
       <router-link class="route-link" to="/auth/:username/monitor"
         >Monitor</router-link
       >
@@ -62,7 +64,7 @@ ul {
   margin: 3rem;
   filter: drop-shadow(0rem 0rem 0.66rem rgb(12, 68, 20));
   border-left: 3px solid rgb(12, 68, 20);
-  border-right: 2px solid rgb(12, 68, 20);
+  border-right: none;
   border-right: none;
   border-bottom: none;
 }

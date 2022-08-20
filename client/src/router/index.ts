@@ -1,8 +1,9 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/HomeView.vue";
-import Auth from "../views/AuthView.vue";
 import Monitor from "../views/MonitorView.vue";
 import Report from "../views/ReportView.vue";
+import Login from "../components/forms/Login.vue";
+import Signup from "../components/forms/Signup.vue";
 
 const routes = [
   {
@@ -11,9 +12,14 @@ const routes = [
     component: Home,
   },
   {
-    path: "/auth",
-    name: "authentication",
-    component: Auth,
+    path: "/auth/login",
+    name: "login",
+    component: Login,
+  },
+  {
+    path: "/auth/signup",
+    name: "signup",
+    component: Signup,
   },
   {
     path: "/auth/:username/monitor",
@@ -27,7 +33,7 @@ const routes = [
   },
 ];
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 

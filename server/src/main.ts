@@ -1,10 +1,15 @@
 import { NestFactory } from "@nestjs/core";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { AppModule } from "./app.module";
-import {} from "dotenv/config";
+import { ConfigService } from "@nestjs/config";
+import * as passport from "passport";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  await app.listen(3000);
+  const config = app.get(ConfigService);
+  app.enableCors();
+  await app.listen(3000, () => {
+    console.log(`~SERVER~ LISTENING @ 3000`);
+  });
 }
 bootstrap();
