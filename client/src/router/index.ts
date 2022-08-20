@@ -22,12 +22,12 @@ const routes = [
     component: Signup,
   },
   {
-    path: "/auth/:username/monitor",
+    path: "/auth/:email/monitor",
     name: "monitor",
     component: Monitor,
   },
   {
-    path: "/auth/:username/report",
+    path: "/auth/:email/report",
     name: "report",
     component: Report,
   },

@@ -1,20 +1,16 @@
 import { Controller, Request, Post, UseGuards, Get } from "@nestjs/common";
-import { AuthService } from "./auth/auth.service";
+import { AppService } from "./app.service";
+import { UsersService } from "./users/users.service";
 
 @Controller("/")
 export class AppController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private appService: AppService,
+    private userService: UsersService
+  ) {}
 
-  // @Get("*")
-  // getWild() {
-  //   return "WILDCARD ROUTE";
-  // }
   @Get()
-  sayHello() {
-    return this.authService.login({
-      chosenName: "Joshua",
-      email: "jdiehl2236@yahoo.com",
-      password: "willywonka",
-    });
+  getHello() {
+    return this.appService.getRoot();
   }
 }

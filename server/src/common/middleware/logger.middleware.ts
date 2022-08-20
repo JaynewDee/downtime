@@ -13,7 +13,6 @@ export class RequestLogger implements NestMiddleware {
       "  BODY: ",
       body
     );
-    console.log(`*Response Body*\n`, res);
     next();
   }
 }

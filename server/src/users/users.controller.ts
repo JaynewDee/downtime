@@ -1,21 +1,48 @@
-import { Controller, Request, Post, UseGuards, Get, Res } from "@nestjs/common";
-import { AuthService } from "../auth/auth.service";
-import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from "@nestjs/common";
+import { UsersService } from "./users.service";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { LoginUserDto } from "./dto/login-user.dto";
+import { MongooseError } from "mongoose";
 
-@Controller("user")
+@Controller("users")
 export class UsersController {
-  constructor() {}
+  constructor(private readonly usersService: UsersService) {}
 
-  // @UseGuards(JwtAuthGuard)
-  @Get("profile")
-  getProfile(@Request() req, @Res() res) {
-    res.send();
+  @Post("create")
+  async create(@Body() createUserDto: CreateUserDto) {
+    const isValidated = await this.usersService.create(createUserDto);
+    return isValidated;
+  }
+  @Post("login")
+  async login(@Body() loginUserDto: LoginUserDto) {
+    return await this.usersService.login(loginUserDto);
+  }
+  @Get()
+  findAll() {
+    return this.usersService.findAll();
   }
 
-  @Get("all")
-  getAllUsers(@Request() req, @Res() res) {
-    console.log(req);
-    console.log(res.body);
-    res.send("Chicken!");
+  @Get(":email")
+  findOne(@Param("email") email: string) {
+    return this.usersService.findOne(email);
+  }
+
+  @Patch(":id")
+  update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(+id, updateUserDto);
+  }
+
+  @Delete(":id")
+  remove(@Param("id") id: string) {
+    return this.usersService.remove(+id);
   }
 }

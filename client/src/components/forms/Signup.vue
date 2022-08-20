@@ -10,19 +10,31 @@ export default defineComponent({
       email: "",
       password: "",
       authenticated: false,
+      errorMessage: "",
     };
   },
   methods: {
     async submitSignup() {
-      console.log("submitSignup called!");
-      await axios
-        .post(server.baseURL + `auth/signup`, {
-          chosenName: this.chosenName,
-          email: this.email,
-          password: this.password,
-        })
-        .then((res) => this.$emit("authenticated", true))
-        .then(() => this.$router.replace("/"));
+      const data = await axios.post(server.baseURL + `users/create`, {
+        chosenName: this.chosenName,
+        email: this.email,
+        password: this.password,
+      });
+      if (!data.data) {
+        this.errorMessage = "Failed to retrieve User";
+      } else {
+        this.resetError();
+        this.resetForm();
+        window.location.replace(`/auth/${data.data.email}/monitor`);
+      }
+    },
+    resetForm() {
+      this.chosenName = "";
+      this.email = "";
+      this.password = "";
+    },
+    resetError() {
+      this.errorMessage = "";
     },
   },
 });
@@ -30,6 +42,7 @@ export default defineComponent({
 
 <template>
   <h2>AUTHENTICATION</h2>
+  <div v-if="errorMessage">{{ errorMessage }}</div>
   <form method="post">
     <label>Chosen Name</label>
     <input v-model="chosenName" type="text" />
@@ -40,7 +53,7 @@ export default defineComponent({
     <label>Password</label>
     <input v-model="password" type="password" />
     <button
-      v-on:click="submitSignup"
+      @click.prevent="submitSignup"
       type="submit"
       value="submit"
       class="submitBtn"

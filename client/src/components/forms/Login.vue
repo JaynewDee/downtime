@@ -12,7 +12,7 @@ export default defineComponent({
   },
   methods: {
     submitLogin() {
-      axios.post(server.baseURL + "auth/login", {
+      axios.post(server.baseURL + "users/login", {
         email: this.email,
         password: this.password,
       });

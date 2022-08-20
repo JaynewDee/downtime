@@ -4,29 +4,30 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { RequestLogger } from "./common/middleware/logger.middleware";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { AuthModule } from "./auth/auth.module";
-import { UsersModule } from "./users/users.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { AuthController } from "./auth/auth.controller";
-import { UsersController } from "./users/users.controller";
+import { UsersModule } from "./users/users.module";
+import { UsersService } from "./users/users.service";
+import { User, UserSchema } from "./users/schemas/user.schema";
+import { AuthModule } from "./auth/auth.module";
+import { JwtModule, JwtService } from "@nestjs/jwt";
+import { AuthService } from "./auth/auth.service";
 
 @Module({
   imports: [
-    AuthModule,
-    UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.MONGODB_URI),
-    ScheduleModule.forRoot(),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    UsersModule,
+    AuthModule,
+    JwtModule,
   ],
-  controllers: [AppController, AuthController],
-  providers: [AppService, ConfigService],
+  controllers: [AppController],
+  providers: [AppService, ConfigService, UsersService, JwtService, AuthService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(RequestLogger)
-      .forRoutes(AppController, UsersController, AuthController);
+    consumer.apply(RequestLogger).forRoutes(AppController);
   }
 }
