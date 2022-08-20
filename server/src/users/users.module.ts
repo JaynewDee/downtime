@@ -6,14 +6,19 @@ import { User } from "./entities/user.entity";
 import { UserSchema } from "./schemas/user.schema";
 import { AuthService } from "src/auth/auth.service";
 import { AuthModule } from "src/auth/auth.module";
-import { JwtService } from "@nestjs/jwt";
+import { JwtModule, JwtService } from "@nestjs/jwt";
+import { ConfigService } from "@nestjs/config";
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    JwtModule.register({
+      secret: "secretsecretshhhh",
+      signOptions: { expiresIn: "60s" },
+    }),
     AuthModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService, AuthService, JwtService],
+  providers: [UsersService, AuthService, JwtService, ConfigService],
 })
 export class UsersModule {}

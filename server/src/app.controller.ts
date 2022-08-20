@@ -4,10 +4,7 @@ import { UsersService } from "./users/users.service";
 
 @Controller("/")
 export class AppController {
-  constructor(
-    private appService: AppService,
-    private userService: UsersService
-  ) {}
+  constructor(private appService: AppService) {}
 
   @Get()
   getHello() {

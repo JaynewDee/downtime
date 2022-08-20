@@ -6,27 +6,39 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  HttpStatus,
+  HttpCode,
+  Res,
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { LoginUserDto } from "./dto/login-user.dto";
-import { MongooseError } from "mongoose";
+import { AuthService } from "src/auth/auth.service";
 
 @Controller("users")
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private authService: AuthService
+  ) {}
 
   @Post("create")
   async create(@Body() createUserDto: CreateUserDto) {
     const isValidated = await this.usersService.create(createUserDto);
+    console.log(isValidated);
     return isValidated;
   }
+
+  @HttpCode(200)
   @Post("login")
   async login(@Body() loginUserDto: LoginUserDto) {
-    return await this.usersService.login(loginUserDto);
+    const isValidated = await this.usersService.login(loginUserDto);
+    return isValidated;
   }
-  @Get()
+
+  @Get("all")
   findAll() {
     return this.usersService.findAll();
   }

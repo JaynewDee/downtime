@@ -9,30 +9,45 @@ import { User, UserDocument } from "./schemas/user.schema";
 
 @Injectable()
 export class UsersService {
+  users: any[];
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     private authService: AuthService
-  ) {}
+  ) {
+    this.users = [];
+  }
 
   async create(createUserDto: CreateUserDto) {
-    return this.userModel.create(createUserDto).catch((err) => {
-      if (err.code === 11000) {
-        return false;
-      }
-    });
+    const created = await this.userModel
+      .create(createUserDto)
+      .then((data) => data)
+      .catch((err) => {
+        if (err.code === 11000) {
+          return false;
+        }
+      });
+    console.log(created);
+    return created;
   }
 
   async login(loginUserDto: LoginUserDto) {
-    const doesExist = await this.userModel
-      .findOne(loginUserDto)
-      .catch((err) => console.error(err));
-    if (doesExist) {
-      this.authService.signJwt(doesExist);
-    }
-    return { success: false, message: "User was not found!" };
+    return await this.userModel
+      .findOne({ email: loginUserDto.email })
+      .then(async (res) => {
+        return await this.authService.checkHash(
+          loginUserDto.password,
+          res.password
+        );
+      })
+      .then((data) => {
+        if (data === true) {
+          return loginUserDto.email;
+        }
+        return false;
+      });
   }
   findAll() {
-    return `This action returns all users`;
+    return this.userModel.find().exec();
   }
 
   findOne(email: string) {
