@@ -1,4 +1,4 @@
-import { Body, Injectable } from "@nestjs/common";
+import { Body, Injectable, Req, Res } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { AuthService } from "src/auth/auth.service";
@@ -17,8 +17,28 @@ export class UsersService {
     this.users = [];
   }
 
+  async findAll() {
+    const allUsers = await this.userModel.find().exec();
+    this.users = allUsers;
+    return allUsers;
+  }
+
+  async login(loginUserDto: LoginUserDto) {
+    const user = await this.userModel.findOne({ email: loginUserDto.email });
+    const authenticated = await this.authService
+      .checkHash(loginUserDto.password, user.password)
+      .then(async (res) => {
+        if (res) {
+          const token = await this.authService.signToken(user);
+          return token;
+        }
+      })
+      .catch((err) => err);
+    return authenticated;
+  }
+
   async create(createUserDto: CreateUserDto) {
-    const created = await this.userModel
+    return await this.userModel
       .create(createUserDto)
       .then((data) => data)
       .catch((err) => {
@@ -26,28 +46,9 @@ export class UsersService {
           return false;
         }
       });
-    console.log(created);
-    return created;
   }
-
-  async login(loginUserDto: LoginUserDto) {
-    return await this.userModel
-      .findOne({ email: loginUserDto.email })
-      .then(async (res) => {
-        return await this.authService.checkHash(
-          loginUserDto.password,
-          res.password
-        );
-      })
-      .then((data) => {
-        if (data === true) {
-          return loginUserDto.email;
-        }
-        return false;
-      });
-  }
-  findAll() {
-    return this.userModel.find().exec();
+  async populateUserDomains({ email }) {
+    return await this.userModel.findOne({ email });
   }
 
   findOne(email: string) {

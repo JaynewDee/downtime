@@ -15,16 +15,20 @@ export default defineComponent({
   },
   methods: {
     async submitSignup() {
-      const data = await axios.post(server.baseURL + `users/create`, {
+      const data = await axios.post(server.baseURL + `users/signup`, {
         chosenName: this.chosenName,
         email: this.email,
         password: this.password,
       });
       if (!data.data) {
-        this.errorMessage = "Failed to retrieve User";
+        console.log(data);
+        this.errorMessage = "Duplicate user detected.  Try logging in.";
+        this.resetForm();
+        setTimeout(() => {
+          this.errorMessage = "";
+        }, 3000);
       } else {
         this.resetError();
-        this.resetForm();
         window.location.replace(`/auth/${data.data.email}/monitor`);
       }
     },
@@ -42,7 +46,7 @@ export default defineComponent({
 
 <template>
   <h2>AUTHENTICATION</h2>
-  <div v-if="errorMessage">{{ errorMessage }}</div>
+  <h6 v-if="errorMessage">{{ errorMessage }}</h6>
   <form method="post">
     <label>Chosen Name</label>
     <input v-model="chosenName" type="text" />

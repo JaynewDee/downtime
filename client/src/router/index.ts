@@ -10,6 +10,12 @@ const routes = [
     path: "/",
     name: "home",
     component: Home,
+    beforeEnter: authenticate,
+  },
+  {
+    path: "/:email",
+    name: "authenticated",
+    component: Home,
   },
   {
     path: "/auth/login",
@@ -22,19 +28,26 @@ const routes = [
     component: Signup,
   },
   {
-    path: "/auth/:email/monitor",
+    path: "/:email/monitor",
     name: "monitor",
     component: Monitor,
+    beforeEnter: authenticate,
   },
   {
-    path: "/auth/:email/report",
+    path: "/:email/report",
     name: "report",
     component: Report,
+    beforeEnter: authenticate,
   },
 ];
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
-
+function authenticate(req: any, res: any, next: any) {
+  if (localStorage.getItem("token")) {
+    next();
+    return;
+  }
+}
 export default router;

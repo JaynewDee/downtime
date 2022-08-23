@@ -5,3 +5,8 @@
   margin: 0 auto;
   padding: 2rem;
 }
+
+hr {
+  margin: 1rem 0;
+  border-radius: 50%;
+}

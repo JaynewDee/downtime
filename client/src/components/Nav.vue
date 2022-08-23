@@ -1,32 +1,58 @@
 <script lang="ts">
-export default {
+import axios from "axios";
+import { defineComponent } from "vue";
+
+export default defineComponent({
   data() {
-    return {};
+    return {
+      loggedIn: false,
+      errorMsg: "",
+    };
+  },
+  mounted() {
+    const tokenPresent = localStorage.getItem("token");
+    if (tokenPresent) {
+      this.loggedIn = true;
+    }
   },
   methods: {
     returnHome() {
       window.location.replace("/");
     },
+    endSession() {
+      localStorage.removeItem("token");
+      this.loggedIn = false;
+    },
+    validate() {
+      if (!this.loggedIn) {
+        this.errorMsg = "The user must first complete authentication.";
+        setTimeout(() => {
+          this.errorMsg = "";
+        }, 3000);
+      }
+    },
   },
-};
+});
 </script>
 
 <template>
   <h3 class="logo-header">
     <div>
-      <button @click="returnHome" class="logo-home">^</button>
+      <button class="logo-home">^</button>
     </div>
   </h3>
-
+  <div v-if="errorMsg" class="err-msg">{{ errorMsg }}</div>
   <nav>
     <ul>
-      <router-link class="route-link" to="/auth/login"
+      <router-link class="route-link" to="/" v-if="loggedIn">Home</router-link>
+      <router-link class="route-link" to="/auth/login" v-else
         >Authenticate</router-link
       >
-      <router-link class="route-link" to="/auth/:username/monitor"
+
+      <router-link class="route-link" to="/:email/monitor" @click="validate"
         >Monitor</router-link
       >
-      <router-link class="route-link" to="/auth/:username/report"
+      <router-link class="route-link" to="/:email/report" @click="validate"
         >Report</router-link
       >
     </ul>
@@ -50,7 +76,7 @@ ul {
 .route-link {
   text-decoration: none;
   font-size: 18px;
-  padding: 0 3rem;
+  padding-right: 3rem;
   filter: drop-shadow(0rem 0rem 1rem black);
   transition: all 0.33s;
   color: rgba(8, 97, 0, 0.9);
@@ -62,16 +88,20 @@ ul {
 .logo-home {
   background: none;
   margin: 3rem;
+  font-size: 1rem;
   filter: drop-shadow(0rem 0rem 0.66rem rgb(12, 68, 20));
-  border-left: 3px solid rgb(12, 68, 20);
-  border-right: none;
-  border-right: none;
-  border-bottom: none;
+  border: none;
+  border-bottom: 3px solid rgb(12, 68, 20);
+  transform: rotate(-45deg);
+  transition: all 0.3s;
 }
 .logo-home:hover {
-  transform: translate(-2px, -2px) scale(1.1);
+  transform: translate(-2px, -2px) scale(1.1) rotateZ(135deg);
 }
-
+.err-msg {
+  position: absolute;
+  right: 5rem;
+}
 @media screen and (max-width: 800px) {
   ul {
     flex-flow: column wrap;

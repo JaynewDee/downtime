@@ -9,25 +9,41 @@ import { UsersModule } from "./users/users.module";
 import { UsersService } from "./users/users.service";
 import { User, UserSchema } from "./users/schemas/user.schema";
 import { AuthModule } from "./auth/auth.module";
-import { JwtModule, JwtService } from "@nestjs/jwt";
+import { JwtModule } from "@nestjs/jwt";
 import { AuthService } from "./auth/auth.service";
+import { CronService } from "./common/cron/cron.service";
+import { UsersController } from "./users/users.controller";
+import { DomainsService } from "./domains/domains.service";
+import { DomainsModule } from "./domains/domains.module";
+import { Domain, DomainSchema } from "./domains/schemas/domain.schema";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: ".env",
     }),
     MongooseModule.forRoot(process.env.MONGODB_URI),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([{ name: Domain.name, schema: DomainSchema }]),
+    ScheduleModule.forRoot(),
     UsersModule,
     AuthModule,
-    JwtModule,
+    JwtModule.register({ secret: process.env.JWT_KEY }),
+    DomainsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, ConfigService, UsersService, JwtService, AuthService],
+  controllers: [AppController, UsersController],
+  providers: [
+    AppService,
+    ConfigService,
+    UsersService,
+    AuthService,
+    CronService,
+    DomainsService,
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RequestLogger).forRoutes(AppController);
+    consumer.apply(RequestLogger).forRoutes(AppController, UsersController);
   }
 }

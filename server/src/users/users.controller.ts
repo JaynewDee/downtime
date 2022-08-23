@@ -6,41 +6,47 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
-  HttpStatus,
   HttpCode,
-  Res,
+  Session,
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { LoginUserDto } from "./dto/login-user.dto";
-import { AuthService } from "src/auth/auth.service";
+import { CronService } from "src/common/cron/cron.service";
 
 @Controller("users")
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
-    private authService: AuthService
+    private cronService: CronService
   ) {}
 
-  @Post("create")
-  async create(@Body() createUserDto: CreateUserDto) {
-    const isValidated = await this.usersService.create(createUserDto);
-    console.log(isValidated);
-    return isValidated;
+  @Get()
+  async getAllUsers(@Session() session: Record<string, any>) {
+    return this.usersService.findAll();
   }
 
   @HttpCode(200)
   @Post("login")
   async login(@Body() loginUserDto: LoginUserDto) {
-    const isValidated = await this.usersService.login(loginUserDto);
-    return isValidated;
+    const isValid = await this.usersService.login(loginUserDto);
+    return isValid;
   }
 
-  @Get("all")
-  findAll() {
-    return this.usersService.findAll();
+  @HttpCode(201)
+  @Post("signup")
+  async create(@Body() createUserDto: CreateUserDto) {
+    const isValidated = await this.usersService.create(createUserDto);
+    console.log(`isValidated? ` + isValidated);
+    if (isValidated) {
+      return await this.login({
+        email: createUserDto.email,
+        password: createUserDto.password,
+      })
+        .then((token) => token)
+        .catch((err) => console.error(err));
+    }
   }
 
   @Get(":email")

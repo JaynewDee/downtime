@@ -1,3 +1,3 @@
-export const jwt = {
+export default {
   secret: "secretkey",
 };

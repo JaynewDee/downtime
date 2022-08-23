@@ -11,7 +11,7 @@ export class RequestLogger implements NestMiddleware {
       "  URL: ",
       url,
       "  BODY: ",
-      body
+      body.email
     );
     next();
   }

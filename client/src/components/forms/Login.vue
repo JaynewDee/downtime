@@ -8,14 +8,38 @@ export default defineComponent({
     return {
       email: "",
       password: "",
+      authenticated: false,
+      errorMessage: "",
     };
   },
   methods: {
-    submitLogin() {
-      axios.post(server.baseURL + "users/login", {
-        email: this.email,
-        password: this.password,
-      });
+    async submitLogin() {
+      await axios
+        .post(server.baseURL + "users/login", {
+          email: this.email,
+          password: this.password,
+        })
+        .then((res) => {
+          localStorage.setItem("token", res.data.access_token);
+          if (res.data !== false) {
+            this.authenticated = true;
+            this.resetForm();
+            this.$router.push(`/`);
+          } else {
+            this.authenticated = false;
+            this.triggerError("AUTHENTICATION FAILED");
+          }
+        });
+    },
+    triggerError(message: string) {
+      this.errorMessage = message;
+      setTimeout(() => {
+        this.errorMessage = "";
+      }, 3000);
+    },
+    resetForm() {
+      this.email = "";
+      this.password = "";
     },
   },
 });
@@ -24,6 +48,7 @@ export default defineComponent({
 <template>
   <section>
     <h2>AUTHENTICATION</h2>
+    <h6 v-if="errorMessage">{{ errorMessage }}</h6>
     <form>
       <label>E-Mail</label>
       <input v-model="email" type="text" />
