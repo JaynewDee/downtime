@@ -14,16 +14,20 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { LoginUserDto } from "./dto/login-user.dto";
 import { CronService } from "src/common/cron/cron.service";
+import { DomainsService } from "src/domains/domains.service";
+import { CreateDomainDto } from "src/domains/dto/create-domain.dto";
+import { GetDomainsDto } from "src/domains/dto/get-domains.dto";
+import { request } from "http";
 
 @Controller("users")
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
-    private cronService: CronService
+    private domainsService: DomainsService
   ) {}
 
   @Get()
-  async getAllUsers(@Session() session: Record<string, any>) {
+  async getAllUsers() {
     return this.usersService.findAll();
   }
 
@@ -47,6 +51,18 @@ export class UsersController {
         .then((token) => token)
         .catch((err) => console.error(err));
     }
+  }
+
+  @Get("all-domains")
+  async getDomains(@Body() getDomainsDto: GetDomainsDto) {
+    const allDomains = await this.domainsService.getAllDomains();
+    return allDomains;
+  }
+
+  @Post("domain")
+  async addDomain(@Body() createDomainDto: CreateDomainDto) {
+    const newDomain = await this.domainsService.addDomain(createDomainDto);
+    console.log(newDomain);
   }
 
   @Get(":email")

@@ -10,8 +10,7 @@ import { ConfigService } from "@nestjs/config";
 import { CronService } from "src/common/cron/cron.service";
 import { DomainsModule } from "src/domains/domains.module";
 import { DomainsService } from "src/domains/domains.service";
-import { Domain } from "domain";
-import { DomainSchema } from "src/domains/schemas/domain.schema";
+import { Domain, DomainSchema } from "src/domains/schemas/domain.schema";
 
 @Module({
   imports: [

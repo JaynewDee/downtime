@@ -6,6 +6,9 @@ export type DomainDocument = Domain & Document;
 @Schema()
 export class Domain {
   @Prop({ required: true, unique: true })
+  name: string;
+
+  @Prop({ required: true, unique: true })
   url: string;
 
   @Prop({ required: true })

@@ -47,6 +47,7 @@ export class UsersService {
         }
       });
   }
+
   async populateUserDomains({ email }) {
     return await this.userModel.findOne({ email });
   }

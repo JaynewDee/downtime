@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 import * as bcrypt from "bcrypt";
+import { Domain } from "src/domains/schemas/domain.schema";
 export type UserDocument = User & Document;
 
 @Schema()
@@ -15,7 +16,7 @@ export class User {
   password: string;
 
   @Prop({})
-  domains: [];
+  domains: [Domain];
 }
 
 const UserSchema = SchemaFactory.createForClass(User);
