@@ -6,6 +6,7 @@ import { UsersService } from "src/users/users.service";
 import { Model } from "mongoose";
 import { GetDomainsDto } from "./dto/get-domains.dto";
 import { CreateDomainDto } from "./dto/create-domain.dto";
+import { UpdateUserDto } from "src/users/dto/update-user.dto";
 
 @Injectable()
 export class DomainsService {
@@ -21,11 +22,18 @@ export class DomainsService {
     const allDomains = await this.domainModel.find();
     return allDomains;
   }
-  async addDomain(createDomainDto: CreateDomainDto) {
+  async addDomain(
+    updateUserDto: UpdateUserDto,
+    createDomainDto: CreateDomainDto
+  ) {
     const newDomain = await this.domainModel.create({
       url: createDomainDto.url,
       created: new Date(),
+      active: true,
     });
     newDomain.save();
+    const userToUpdate = await this.domainModel.find({
+      email: updateUserDto.userEmail,
+    });
   }
 }

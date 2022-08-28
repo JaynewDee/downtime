@@ -13,6 +13,9 @@ export class Domain {
 
   @Prop({ required: true })
   created: Date;
+
+  @Prop({ required: true })
+  active: boolean;
 }
 
 export const DomainSchema = SchemaFactory.createForClass(Domain);

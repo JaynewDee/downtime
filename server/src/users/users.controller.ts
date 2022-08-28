@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   HttpCode,
-  Session,
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -17,7 +16,6 @@ import { CronService } from "src/common/cron/cron.service";
 import { DomainsService } from "src/domains/domains.service";
 import { CreateDomainDto } from "src/domains/dto/create-domain.dto";
 import { GetDomainsDto } from "src/domains/dto/get-domains.dto";
-import { request } from "http";
 
 @Controller("users")
 export class UsersController {
@@ -60,8 +58,14 @@ export class UsersController {
   }
 
   @Post("domain")
-  async addDomain(@Body() createDomainDto: CreateDomainDto) {
-    const newDomain = await this.domainsService.addDomain(createDomainDto);
+  async addDomain(
+    @Body() updateUserDto: UpdateUserDto,
+    createDomainDto: CreateDomainDto
+  ) {
+    const newDomain = await this.domainsService.addDomain(
+      updateUserDto,
+      createDomainDto
+    );
     console.log(newDomain);
   }
 
