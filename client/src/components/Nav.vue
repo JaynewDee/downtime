@@ -1,12 +1,14 @@
 <script lang="ts">
-import axios from "axios";
 import { defineComponent } from "vue";
 
 export default defineComponent({
+  props: {
+    title: String,
+  },
   data() {
     return {
-      loggedIn: false,
       errorMsg: "",
+      loggedIn: false,
     };
   },
   mounted() {
@@ -49,10 +51,10 @@ export default defineComponent({
         >Authenticate</router-link
       >
 
-      <router-link class="route-link" to="/:email/monitor" @click="validate"
+      <router-link class="route-link" to="/monitor" @click="validate"
         >Monitor</router-link
       >
-      <router-link class="route-link" to="/:email/report" @click="validate"
+      <router-link class="route-link" to="/report" @click="validate"
         >Report</router-link
       >
     </ul>

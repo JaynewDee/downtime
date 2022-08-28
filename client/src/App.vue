@@ -2,25 +2,31 @@
 import { defineComponent } from "vue";
 import Nav from "./components/Nav.vue";
 import Actions from "./components/Actions.vue";
-import Actions from "./components/Actions.vue";
 export default defineComponent({
-  data() {
-    return {
-      loggedIn: false,
-    };
-  },
+  props: {},
   components: {
     Nav,
     Actions,
-    Actions,
+  },
+  data() {
+    return {
+      title: "Downtime",
+      loggedIn: false,
+    };
+  },
+  methods: {
+    updateTitle(childArg: string) {
+      this.title = childArg;
+    },
   },
 });
 </script>
 
 <template>
   <header class="header">
+    <p>{{ title }}</p>
     <Actions />
-    <Nav />
+    <Nav v-bind:title="title" v-on:changeTitle="updateTitle($event)" />
   </header>
   <main>
     <router-view />

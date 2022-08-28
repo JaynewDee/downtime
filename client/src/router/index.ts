@@ -28,13 +28,13 @@ const routes = [
     component: Signup,
   },
   {
-    path: "/:email/monitor",
+    path: "/monitor",
     name: "monitor",
     component: Monitor,
     beforeEnter: authenticate,
   },
   {
-    path: "/:email/report",
+    path: "/report",
     name: "report",
     component: Report,
     beforeEnter: authenticate,
@@ -47,7 +47,7 @@ const router = createRouter({
 function authenticate(req: any, res: any, next: any) {
   if (localStorage.getItem("token")) {
     next();
-    return;
   }
+  return;
 }
 export default router;

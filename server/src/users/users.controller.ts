@@ -7,12 +7,12 @@ import {
   Param,
   Delete,
   HttpCode,
+  Res,
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { LoginUserDto } from "./dto/login-user.dto";
-import { CronService } from "src/common/cron/cron.service";
 import { DomainsService } from "src/domains/domains.service";
 import { CreateDomainDto } from "src/domains/dto/create-domain.dto";
 import { GetDomainsDto } from "src/domains/dto/get-domains.dto";
@@ -32,8 +32,8 @@ export class UsersController {
   @HttpCode(200)
   @Post("login")
   async login(@Body() loginUserDto: LoginUserDto) {
-    const isValid = await this.usersService.login(loginUserDto);
-    return isValid;
+    const authenticated = await this.usersService.login(loginUserDto);
+    return authenticated;
   }
 
   @HttpCode(201)

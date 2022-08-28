@@ -20,7 +20,7 @@ export default defineComponent({
           password: this.password,
         })
         .then((res) => {
-          localStorage.setItem("token", res.data.access_token);
+          localStorage.setItem("token", res.data.token.access_token);
           if (res.data !== false) {
             this.authenticated = true;
             this.resetForm();

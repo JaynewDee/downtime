@@ -1,4 +1,4 @@
-import { Body, Injectable, Req, Res } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { AuthService } from "src/auth/auth.service";
@@ -25,7 +25,7 @@ export class UsersService {
 
   async login(loginUserDto: LoginUserDto) {
     const user = await this.userModel.findOne({ email: loginUserDto.email });
-    const authenticated = await this.authService
+    const token = await this.authService
       .checkHash(loginUserDto.password, user.password)
       .then(async (res) => {
         if (res) {
@@ -34,7 +34,7 @@ export class UsersService {
         }
       })
       .catch((err) => err);
-    return authenticated;
+    return { user, token };
   }
 
   async create(createUserDto: CreateUserDto) {
