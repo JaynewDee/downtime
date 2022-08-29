@@ -14,6 +14,8 @@ export class CronService {
     const domainStatus = await axios
       .get(`http://syntheticrain.net/`)
       .then((res) => {
+        console.log(`Status Code: ${res.status}`);
+        console.log(`Status Text: ${res.status}`);
         return {
           status: res.status,
           text: res.statusText,

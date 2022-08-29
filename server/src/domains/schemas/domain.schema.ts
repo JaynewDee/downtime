@@ -11,10 +11,7 @@ export class Domain {
   @Prop({ required: true, unique: true })
   url: string;
 
-  @Prop({ required: true })
-  created: Date;
-
-  @Prop({ required: true })
+  @Prop({ required: true, default: true })
   active: boolean;
 }
 

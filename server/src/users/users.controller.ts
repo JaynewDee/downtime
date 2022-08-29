@@ -7,14 +7,13 @@ import {
   Param,
   Delete,
   HttpCode,
-  Res,
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { LoginUserDto } from "./dto/login-user.dto";
 import { DomainsService } from "src/domains/domains.service";
-import { CreateDomainDto } from "src/domains/dto/create-domain.dto";
+import { AddDomainDto } from "src/domains/dto/add-domain.dto";
 import { GetDomainsDto } from "src/domains/dto/get-domains.dto";
 
 @Controller("users")
@@ -40,7 +39,6 @@ export class UsersController {
   @Post("signup")
   async create(@Body() createUserDto: CreateUserDto) {
     const isValidated = await this.usersService.create(createUserDto);
-    console.log(`isValidated? ` + isValidated);
     if (isValidated) {
       return await this.login({
         email: createUserDto.email,
@@ -57,16 +55,11 @@ export class UsersController {
     return allDomains;
   }
 
-  @Post("domain")
-  async addDomain(
-    @Body() updateUserDto: UpdateUserDto,
-    createDomainDto: CreateDomainDto
-  ) {
-    const newDomain = await this.domainsService.addDomain(
-      updateUserDto,
-      createDomainDto
-    );
+  @Patch("domain")
+  async addDomain(@Body() addDomainDto: AddDomainDto) {
+    const newDomain = await this.domainsService.addDomain(addDomainDto);
     console.log(newDomain);
+    return newDomain;
   }
 
   @Get(":email")

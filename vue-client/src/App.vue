@@ -14,11 +14,6 @@ export default defineComponent({
       loggedIn: false,
     };
   },
-  methods: {
-    updateTitle(childArg: string) {
-      this.title = childArg;
-    },
-  },
 });
 </script>
 
@@ -26,7 +21,7 @@ export default defineComponent({
   <header class="header">
     <p>{{ title }}</p>
     <Actions />
-    <Nav v-bind:title="title" v-on:changeTitle="updateTitle($event)" />
+    <Nav v-bind:title="title" />
   </header>
   <main>
     <router-view />

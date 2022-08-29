@@ -10,4 +10,8 @@ export class AppController {
   getHello() {
     return this.appService.getRoot();
   }
+  @Get("home")
+  getHome() {
+    return this.appService.phoneHome();
+  }
 }

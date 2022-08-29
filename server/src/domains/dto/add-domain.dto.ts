@@ -1,6 +1,6 @@
-export class CreateDomainDto {
+export class AddDomainDto {
+  userEmail: string;
   name: string;
   url: string;
-  created: Date;
   active: boolean;
 }

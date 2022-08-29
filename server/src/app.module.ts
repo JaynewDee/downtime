@@ -24,8 +24,10 @@ import { Domain, DomainSchema } from "./domains/schemas/domain.schema";
       envFilePath: ".env",
     }),
     MongooseModule.forRoot(process.env.MONGODB_URI),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-    MongooseModule.forFeature([{ name: Domain.name, schema: DomainSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Domain.name, schema: DomainSchema },
+    ]),
     ScheduleModule.forRoot(),
     UsersModule,
     AuthModule,

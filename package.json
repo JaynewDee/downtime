@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"cd server && npm run start:dev\" \"cd client && npm run dev\"",
+    "dev-next": "concurrently \"cd server && npm run start:dev\" \"cd next-client && npm run dev\"",
+    "dev-vue": "concurrently \"cd server && npm run start:dev\" \"cd vue-client && npm run dev\"",
+    "dev-ng": "concurrently \"cd server && npm run start:dev\" \"cd ng-client && npm run start\"",
     "install": "concurrently \"cd server && npm install\" \"cd client && npm install\""
   },
   "author": "",

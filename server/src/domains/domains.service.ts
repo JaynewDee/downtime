@@ -5,8 +5,9 @@ import { Domain, DomainDocument } from "./schemas/domain.schema";
 import { UsersService } from "src/users/users.service";
 import { Model } from "mongoose";
 import { GetDomainsDto } from "./dto/get-domains.dto";
-import { CreateDomainDto } from "./dto/create-domain.dto";
+import { AddDomainDto } from "./dto/add-domain.dto";
 import { UpdateUserDto } from "src/users/dto/update-user.dto";
+import { User, UserDocument } from "src/users/schemas/user.schema";
 
 @Injectable()
 export class DomainsService {
@@ -14,7 +15,8 @@ export class DomainsService {
   base: string;
 
   constructor(
-    @InjectModel(Domain.name) private domainModel: Model<DomainDocument>
+    @InjectModel(Domain.name) private domainModel: Model<DomainDocument>,
+    @InjectModel(User.name) private userModel: Model<UserDocument>
   ) {
     this.base = process.env.SERVER_BASE;
   }
@@ -22,18 +24,17 @@ export class DomainsService {
     const allDomains = await this.domainModel.find();
     return allDomains;
   }
-  async addDomain(
-    updateUserDto: UpdateUserDto,
-    createDomainDto: CreateDomainDto
-  ) {
+  async addDomain(addDomainDto: AddDomainDto) {
     const newDomain = await this.domainModel.create({
-      url: createDomainDto.url,
-      created: new Date(),
-      active: true,
+      ...addDomainDto,
     });
     newDomain.save();
-    const userToUpdate = await this.domainModel.find({
-      email: updateUserDto.userEmail,
-    });
+    const updatedUser = await this.userModel.updateOne(
+      {
+        email: addDomainDto.userEmail,
+      },
+      { domains: newDomain }
+    );
+    return updatedUser;
   }
 }
