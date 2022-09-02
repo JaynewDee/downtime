@@ -17,7 +17,9 @@ export class NavService {
   }
 
   async getAuth() {
-    return this.http.get(this.serverUrl + '/users', this.httpOptions);
+    return this.http
+      .get(this.serverUrl + '/users', this.httpOptions)
+      .subscribe();
   }
 
   async getMonitor() {}

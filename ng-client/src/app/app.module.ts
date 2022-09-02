@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './auth/forms/login/login.component';
 import { SignupComponent } from './auth/forms/signup/signup.component';
 import { FormsModule } from '@angular/forms';
+import { AppService } from './app.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { FormsModule } from '@angular/forms';
     SignupComponent,
   ],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule],
-  providers: [],
+  providers: [AppService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

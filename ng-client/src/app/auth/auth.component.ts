@@ -8,22 +8,21 @@ import { NavService } from '../nav/nav.service';
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
-  public users: any;
+  public connection: any;
   public mode: 'login' | 'signup' = 'login';
   constructor(private navService: NavService, private idb: IdbService) {}
 
   async ngOnInit() {
-    const request = await this.navService.getAuth();
-    request.subscribe((res) => {
-      this.users = res;
-      console.log(res);
-      console.log(this.users);
-    });
-    const userStore = this.idb.getUser();
-    this.users = userStore;
-  }
-
-  printUser() {
-    console.log(this.users);
+    console.log('auth init');
+    const connectionState = await this.navService.getAuth();
+    this.connection = connectionState;
+    console.log(this.connection);
+    const userStore = await this.idb.getUser();
+    if (userStore === undefined) {
+      console.log(`NOT AUTHORIZED`);
+      return;
+    }
+    console.log(`AUTHORIZED`);
+    return;
   }
 }

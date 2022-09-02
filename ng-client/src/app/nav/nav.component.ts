@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { RouterLink } from '@angular/router';
 @Component({
@@ -7,6 +7,7 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./nav.component.scss'],
 })
 export class NavComponent implements OnInit {
+  @Input() loggedIn = false;
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {}

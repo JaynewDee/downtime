@@ -18,9 +18,7 @@ const routes: Routes = [
     path: 'users/:email/report',
     component: ReportComponent,
   },
-  { title: 'login', path: 'users/login', component: LoginComponent },
-  { title: 'signup', path: 'users/signup', component: SignupComponent },
-  { title: 'auth', path: 'users', component: AuthComponent },
+  { title: 'auth', path: 'users/auth', component: AuthComponent },
   { title: 'home', path: '', component: HomeComponent },
   {
     path: '',
