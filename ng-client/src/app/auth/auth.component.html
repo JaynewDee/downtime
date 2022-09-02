@@ -1,1 +1,5 @@
-<p>auth works!</p>
+<section *ngFor="let user of users">
+  <p>{{ user.chosenName }}</p>
+  <p>{{ user.email }}</p>
+</section>
+<app-login-form></app-login-form>

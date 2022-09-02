@@ -29,12 +29,13 @@ export class UsersService {
       .checkHash(loginUserDto.password, user.password)
       .then(async (res) => {
         if (res) {
-          const token = await this.authService.signToken(user);
-          return token;
+          return await this.authService.signToken(user);
+        } else {
+          return "UNAUTHORIZED";
         }
       })
       .catch((err) => err);
-    return { user, token };
+    return { user: { user, token } };
   }
 
   async create(createUserDto: CreateUserDto) {
@@ -54,13 +55,5 @@ export class UsersService {
 
   findOne(email: string) {
     return this.userModel.findOne({ email: email });
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
   }
 }

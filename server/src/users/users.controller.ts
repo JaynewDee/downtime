@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   HttpCode,
+  Res,
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -31,6 +32,9 @@ export class UsersController {
   @HttpCode(200)
   @Post("login")
   async login(@Body() loginUserDto: LoginUserDto) {
+    if (loginUserDto === undefined) {
+      return { message: "Request body is undefined" };
+    }
     const authenticated = await this.usersService.login(loginUserDto);
     return authenticated;
   }
@@ -50,8 +54,9 @@ export class UsersController {
   }
 
   @Get("all-domains")
-  async getDomains(@Body() getDomainsDto: GetDomainsDto) {
+  async getDomains(@Res() res) {
     const allDomains = await this.domainsService.getAllDomains();
+    res.json(allDomains);
     return allDomains;
   }
 
@@ -65,15 +70,5 @@ export class UsersController {
   @Get(":email")
   findOne(@Param("email") email: string) {
     return this.usersService.findOne(email);
-  }
-
-  @Patch(":id")
-  update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
-  }
-
-  @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.usersService.remove(+id);
   }
 }

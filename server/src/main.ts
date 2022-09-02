@@ -7,8 +7,9 @@ import * as passport from "passport";
 import { v4 as uuidv4 } from "uuid";
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors({});
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: true,
+  });
   app.use(
     session({
       secret: process.env.SESSION_SECRET,

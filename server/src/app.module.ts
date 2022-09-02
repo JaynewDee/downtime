@@ -16,7 +16,7 @@ import { UsersController } from "./users/users.controller";
 import { DomainsService } from "./domains/domains.service";
 import { DomainsModule } from "./domains/domains.module";
 import { Domain, DomainSchema } from "./domains/schemas/domain.schema";
-
+import { join } from "path";
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -28,6 +28,7 @@ import { Domain, DomainSchema } from "./domains/schemas/domain.schema";
       { name: User.name, schema: UserSchema },
       { name: Domain.name, schema: DomainSchema },
     ]),
+
     ScheduleModule.forRoot(),
     UsersModule,
     AuthModule,
