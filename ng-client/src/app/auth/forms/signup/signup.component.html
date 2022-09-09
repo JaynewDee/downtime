@@ -1,1 +1,15 @@
-<p>signup works!</p>
+<form ngClass="auth-form" method="post">
+  <label htmlFor="chosen">CHOSEN NAME</label>
+  <input type="text" id="chosen" [(ngModel)]="chosenName" name="chosenName" />
+  <label htmlFor="email">EMAIL</label>
+  <input type="text" id="email" required [(ngModel)]="email" name="email" />
+  <label htmlFor="password">PASSWORD</label>
+  <input
+    type="password"
+    id="password"
+    required
+    [(ngModel)]="password"
+    name="password"
+  />
+  <button (click)="onSubmit()" type="submit">SUBMIT</button>
+</form>

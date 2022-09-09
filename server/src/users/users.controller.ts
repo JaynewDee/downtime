@@ -25,8 +25,11 @@ export class UsersController {
   ) {}
 
   @Get()
-  async getAllUsers() {
-    return this.usersService.findAll();
+  async getAllUsers(@Res() res) {
+    if (res.ok) {
+      return `Root server response: HEALTHY`;
+    }
+    return `Root server response: ERROR`;
   }
 
   @HttpCode(200)

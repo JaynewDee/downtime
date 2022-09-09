@@ -27,15 +27,42 @@ export class AuthService {
         this.userDomains = res.user.user.domains;
         sessionStorage.setItem('token', res.user.token.access_token);
         this.idb.setUser(this.currentUser);
+        this.loggedIn = true;
         return res;
       });
   }
 
+  async signup({ chosenName, email, password }: Signup) {
+    return this.http
+      .post(this.baseURL + '/signup', {
+        chosenName: chosenName,
+        email: email,
+        password: password,
+      })
+      .subscribe((res: any) => {
+        this.currentUser = res.user.user;
+        this.userDomains = res.user.user.domains;
+        sessionStorage.setItem('token', res.user.token.access_token);
+        this.idb.setUser(this.currentUser);
+        this.loggedIn = true;
+        return res;
+      });
+  }
+  async getLoginStatus() {
+    return this.loggedIn;
+  }
   async authorize() {
     const session = await this.idb.getUser();
+    this.loggedIn = true;
     if (session === undefined) {
       return false;
     }
     return true;
   }
 }
+
+export type Signup = {
+  chosenName?: string;
+  email: string;
+  password: string;
+};

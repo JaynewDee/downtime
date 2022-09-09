@@ -13,9 +13,5 @@ export class AppComponent implements OnInit {
   loggedIn = false;
   constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {}
-  async ngOnChanges() {
-    this.loggedIn = await this.authService.authorize();
-    console.log(this.loggedIn);
-  }
+  ngOnInit() {}
 }

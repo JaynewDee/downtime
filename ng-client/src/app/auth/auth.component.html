@@ -1,4 +1,9 @@
-<section>
-  <h4>LOGIN</h4>
+<section *ngIf="!loggedIn; else logout">
+  <button (click)="setAuthMode('login')">LOGIN</button>
+  <button (click)="setAuthMode('signup')">SIGNUP</button>
 </section>
-<app-login-form></app-login-form>
+<ng-template #logout>
+  <button>LOGOUT</button>
+</ng-template>
+<app-login-form *ngIf="authMode === 'login'; else signup"></app-login-form>
+<ng-template #signup><app-signup-form> </app-signup-form></ng-template>

@@ -19,7 +19,7 @@ export class LoginComponent {
     await this.authService
       .login({ email: this.email, password: this.password })
       .then(() => {
-        this.router.navigate([`users/${this.email}/monitor`]);
+        this.router.navigate([`users/monitor`]);
         this.resetFields();
       });
   }
